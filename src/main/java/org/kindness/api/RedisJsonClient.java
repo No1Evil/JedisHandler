@@ -1,7 +1,9 @@
 package org.kindness.api;
 
 import com.google.gson.Gson;
+import org.kindness.api.messenger.RedisMessage;
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPubSub;
 
 public abstract class RedisJsonClient {
 
@@ -27,6 +29,18 @@ public abstract class RedisJsonClient {
     // Object Getter
     public <T> T getObject(String key, Class<T> clazz) {
         return gson.fromJson(getValue(key), clazz);
+    }
+
+    public void publishMessage(RedisMessage message) {
+        jedis.publish(message.getChannel(), message.getMessage());
+    }
+
+    public void subscribeChannel(JedisPubSub subscriber, String channel) {
+        jedis.subscribe(subscriber, channel);
+    }
+
+    public void unsubscribeChannel(JedisPubSub subscriber) {
+        subscriber.unsubscribe();
     }
 
     // Close connection
