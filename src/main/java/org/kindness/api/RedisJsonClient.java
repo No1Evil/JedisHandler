@@ -20,13 +20,13 @@ public abstract class RedisJsonClient {
     }
 
     // JSON Getter
-    private String receiveValue(String key) {
+    private String getValue(String key) {
         return jedis.get(key);
     }
 
     // Object Getter
-    public <T> T receiveObject(String key, Class<T> clazz) {
-        return gson.fromJson(receiveValue(key), clazz);
+    public <T> T getObject(String key, Class<T> clazz) {
+        return gson.fromJson(getValue(key), clazz);
     }
 
     // Close connection
