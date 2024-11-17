@@ -1,5 +1,8 @@
 package org.kindness.api;
 
+import org.kindness.api.messenger.RedisMessage;
+import org.kindness.api.messenger.RedisMessageEvent;
+import org.kindness.api.messenger.RedisSubscriber;
 import redis.clients.jedis.Jedis;
 
 public class RedisConnectionManager extends RedisJsonClient {
@@ -25,5 +28,9 @@ public class RedisConnectionManager extends RedisJsonClient {
     // Connection getter
     public Jedis getConnection() {
         return jedis;
+    }
+
+    public RedisSubscriber subscribe(RedisMessageEvent message, String channel) {
+        return new RedisSubscriber(this, message, channel);
     }
 }
