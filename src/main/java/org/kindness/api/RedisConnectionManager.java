@@ -30,7 +30,7 @@ public class RedisConnectionManager extends RedisJsonClient {
         return jedis;
     }
 
-    public RedisSubscriber subscribe(RedisMessageEvent message, String channel) {
-        return new RedisSubscriber(this, message, channel);
+    public RedisSubscriber subscribe(RedisMessageEvent message) {
+        return new RedisSubscriber(this, message);
     }
 }

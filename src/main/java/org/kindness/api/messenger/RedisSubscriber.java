@@ -8,16 +8,14 @@ import redis.clients.jedis.JedisPubSub;
 public class RedisSubscriber {
 
     private final Subscriber subscriber;
-    private final String channel;
 
-    public RedisSubscriber(RedisConnectionManager connectionManager, RedisMessageEvent messageEvent,String channel) {
-        this.channel = channel;
+    public RedisSubscriber(RedisConnectionManager connectionManager, RedisMessageEvent messageEvent) {
         connectionManager.getConnection().subscribe(this.subscriber = new Subscriber(){
             @Override
             public void onMessage(String channel, String message) {
                  messageEvent.onMessage(new RedisMessage(channel, message));
             }
-        }, channel);
+        }, messageEvent.getChannel());
     }
 
     public void unsubscribe() {
